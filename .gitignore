@@ -1,6 +1,7 @@
-node_modules
+moon-gate-story/node_modules
 dist
 dist-ssr
 .DS_Store
 *.local
 .vercel
+node_modules
