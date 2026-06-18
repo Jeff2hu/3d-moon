@@ -21,11 +21,11 @@ const reduceMotion =
 const SCENES = {
   pro: {
     name: "序曲 · 被決定的命運",
-    bg: "#02050a",
-    fog: [9, 34],
-    ground: "#060d09",
+    bg: "#0b1814",
+    fog: [18, 72],
+    ground: "#132619",
     decor: "forest",
-    intro: true, // 進場時翻開命運之書
+    intro: "book", // 進場時翻開命運之書
     bounds: { type: "circle", r: 44 },
     start: [0, 16],
     // 無中央亮空地、無動物：純黑森林中央只有一道暗門
@@ -44,9 +44,10 @@ const SCENES = {
     start: [0, 9], // 一進場就在最前面、置中
     gate: { pos: [0, 0, -26], glow: "#f2d78c", label: "命運第一次交會的地方", hidden: true }, // 不再顯示穿梭門
     npc: {
-      side: [4.4, 0, 6],     // 婆婆起始站在右前方一旁
-      walkTo: [1.5, 0, 5.0], // 走過來停在公主身旁
-      trigger: [0, 3.5],     // 公主走過第一張卡片即觸發
+      side: [3.2, 0, -25],     // 婆婆藏在閘門出口那一帶
+      walkTo: [1.3, 0, -23.5], // 從閘門衝出來、擋在公主與出口之間
+      trigger: [0, -24.9],     // 公主幾乎走到閘門出口才觸發
+      dash: true,             // 衝出來
       chant: "霹靂卡霹靂拉拉，波波莉娜貝貝魯多",
       lines: [
         "孩子，你不是這裡的人吧？帶著它，完成你的使命。",
@@ -59,26 +60,34 @@ const SCENES = {
     puzzle: { answer: "0725", hint: "先知曉自己身在何處，再知曉旅程付出的代價，兩者相連。" },
     next: "forest",
     cards: [
-      { pos: [-3.2, 1.7, 6], rot: 0.5, kicker: "第一章 · 迷宮中的舞台", text: "「這裡是哪裡…？」九公主跟著人群走出諾大的鐵箱子，四周盡是她從未見過的居民、服飾與街景，映入眼簾的空間彷彿一座迷宮的入口；而方才載著她的鐵箱子，正在身後轟然高速駛離。人潮不時推擠碰撞，加上全然陌生的環境，使九公主暈頭轉向、心慌不已。" },
+      { pos: [-3.2, 1.7, -9], rot: 0.5, kicker: "第一章 · 迷宮中的舞台", text: "「這裡是哪裡…？」九公主跟著人群走出諾大的鐵箱子，四周盡是她從未見過的居民、服飾與街景，映入眼簾的空間彷彿一座迷宮的入口；而方才載著她的鐵箱子，正在身後轟然高速駛離。人潮不時推擠碰撞，加上全然陌生的環境，使九公主暈頭轉向、心慌不已。" },
     ],
   },
   forest: {
     name: "第二章 · 拒絕入睡的森林",
-    bg: "#02050a",
-    fog: [9, 34],
-    ground: "#060d09",
+    bg: "#0b1814",
+    fog: [18, 72],
+    ground: "#132619",
     decor: "forest",
+    intro: "voice", // 進場時先有腦海裡的聲音（前言）
     bounds: { type: "circle", r: 44 },
     start: [0, 16],
     clearing: { pos: [0, 0, -24], r: 11 },
     gate: { pos: [0, 0, -24], glow: "#f2d78c", label: "時空之門" },
     puzzle: { answer: "2466", hint: "其一：森林化作不眠舞台的那一夜，是這座城紀年裡的哪一年？其二：地底小廣場上有幾位最先睜眼的守望者？其三：能走出地底、見到星空的大門有幾道？" },
     next: "bridge",
+    preface: [
+      { t: "就在此刻，一個溫柔、卻不屬於任何人的聲音，在妳腦海中響起：" },
+      { t: "若想躲避命運的追兵，妳必須前往一座會呼吸的森林。", q: true },
+      { t: "那座森林，坐落在高塔的中央——四面被樓宇環抱，卻比任何地方都更接近自然。", q: true },
+      { t: "那裡藏著一個祕密：每年只有一夜，森林會拒絕入睡。", q: true },
+      { t: "那一夜，燈火徹夜不滅，人們湧入林間，起舞、歌唱、發著光，把整座森林點亮成一座不眠的舞台，直到黎明降臨。", q: true },
+      { t: "妳會熟悉那樣的夜晚……因為在妳的世界，那座森林，叫做『黑森林』。", q: true },
+    ],
     cards: [
-      { pos: [-3.6, 1.7, 12], rot: 0.5, kicker: "第二章 · 拒絕入睡的森林", text: "第一道封印解開，盒蓋輕輕彈起。一個溫柔卻不屬於任何人的聲音在妳腦海響起：「若想躲避命運的追兵，妳必須前往一座會呼吸的森林。」" },
-      { pos: [3.6, 1.7, 2], rot: -0.5, text: "「那座森林坐落在高塔的中央——四面被樓宇環抱，卻比任何地方都更接近自然。每年只有一夜，森林會拒絕入睡。」" },
-      { pos: [-3.6, 1.7, -8], rot: 0.5, text: "「那一夜，燈火徹夜不滅，人們湧入林間起舞、歌唱、發著光，把整座森林點亮成一座不眠的舞台，直到黎明。妳會熟悉那樣的夜晚——在妳的世界，它叫『黑森林』。」" },
-      { pos: [3.6, 1.7, -18], rot: -0.5, text: "黑森林——正是她墜入月門之處。原來它們像同一座森林的兩面：一面通往幽暗的命運，一面卻在某夜化作最明亮的舞台。" },
+      { pos: [-3.6, 1.7, 10], rot: 0.5, kicker: "第二章 · 拒絕入睡的森林", text: "黑森林——那不正是她墜入月門的地方嗎？原來它們像是同一座森林的兩面：一面通往幽暗的命運，一面卻在某個夜裡，化作最明亮的舞台。" },
+      { pos: [3.6, 1.7, 0], rot: -0.5, text: "「會呼吸的森林……拒絕入睡的那一夜……」妳忽然明白了。婆婆口中的「舞台」，或許從來就不只是牆上那些流轉的人影，而是這座——每年都會為了一夜而甦醒、化作巨大舞台的森林本身。" },
+      { pos: [-3.6, 1.7, -10], rot: 0.5, text: "聲音漸漸淡去，只留下最後一句：「下一個線索，就藏在那座森林裡。去吧。」" },
     ],
   },
   bridge: {
@@ -90,14 +99,28 @@ const SCENES = {
     bounds: { type: "rect", xMin: -6, xMax: 6, zMin: -44, zMax: 18 },
     start: [0, 14],
     groundY: bridgeY, // 角色沿橋面上坡
-    gate: { pos: [0, 7, -39], glow: "#f0b48a", label: "天臺盡頭・通往天空的門" },
-    puzzle: { answer: "745", hint: "其一：登上最接近天空的那一層，得先穿過幾道並肩而立的守衛？其二：從地面數起，這座高塔共有幾層？其三：橋畔牆上那幅縱橫交錯的圖中，被紅色方框圈住的方形有幾個？" },
+    gate: { pos: [0, 7, -46], glow: "#f0b48a", label: "天臺盡頭・通往天空的門", hidden: true }, // 天台只留雲海，不放穿越門；密碼在小屋之後才觸發
+    puzzle: { answer: "745", hint: "其一：若要登上最接近天空的那一層，得先穿過幾道並肩而立的守衛？其二：從地面數起，這座高塔共有幾層？其三：橋畔的牆上掛著一幅奇異的圖，上頭縱橫交錯著無數細線；公主只認得，線與線之間，棲息著一隻隻被紅色鐵籠圈住的方形。" },
     next: "ch4",
+    reunion: {
+      side: [3, 0, 7],        // 王子原本站在橋上前方
+      walkTo: [1.4, 0, 11.5], // 朝公主跑過來、停在她身旁
+      trigger: [0, 11],       // 公主踏上大橋即觸發
+      lines: [
+        { who: "龍羽王子", t: "我為了找妳，一路追到黑森林，卻在月門前一個失足，也跌了進來。醒來後，一位老婆婆對我說：『拿著這個完成你的使命，到那片天空找我吧。』" },
+        { who: "九公主", t: "我也遇見了同一位婆婆……可她對我說的，是『到那座舞台找我吧』。" },
+        { who: "", t: "同一位婆婆，兩句不同的話。一個指向天空，一個指向舞台，其中似乎藏著什麼深意，兩人卻一時參不透。" },
+      ],
+      // 相認後浮現的旁白序章段，看完才把畫面交回玩家
+      after: [
+        { t: "他們循著盒子的指引，來到一座橫跨天際的大橋。每到晨昏，橋上便奔流過一條由千萬鋼鐵獸組成的河——轟鳴著、閃著光，自橋的這頭，一路湧向那頭。" },
+        { t: "於是，兩人決定在橋邊住了下來，靜靜等待老婆婆再次現身的那一天。" },
+        { t: "日子一天天過去。縱然人生地不熟，他們卻漸漸明白——只要兩個人在一起，再陌生的異鄉，也能住成一個溫暖的家。" },
+      ],
+    },
+    house: { x: 0, z: -43 }, // 雲海天台上的小屋
     cards: [
-      { pos: [-4.2, 2.05, 10], rot: 0.5, kicker: "第三章 · 兩條命運的交會", text: "公主循著盒子的指引來到一座大橋邊。人群中，一個熟悉的身影撞進她眼裡——「龍羽王子？！」她不敢置信地奔了過去。" },
-      { pos: [4.2, 4.5, -4], rot: -0.5, text: "王子一把握住她的手：「我為了找妳追到黑森林，也在月門前失足跌了進來。婆婆對我說：『拿著這個完成使命，到那片天空找我吧。』」公主一愣：「她對我說的，卻是『到那座舞台找我』。」" },
-      { pos: [-4.2, 6.6, -16], rot: 0.5, text: "同一位婆婆，兩句話：一個指向天空，一個指向舞台。兩人在橋邊住下等待婆婆，每到晨昏便看橋上奔流過一條千萬鋼鐵獸組成的河。原來只要兩個人在一起，連異鄉都能住成家。" },
-      { pos: [4.2, 8.7, -28], rot: -0.5, text: "直到尋到婆婆的住所，才驚覺她竟是傳說中的神仙教母——只因動了惻隱之心、插手凡間感情，觸犯天規，被帶回古老學校受罰。「就換我們去，把她找回來。」" },
+      { pos: [0, 8.6, -40], rot: 0, kicker: "第三章 · 兩條命運的交會", text: "直到某天，循著線索尋到婆婆的住所，才赫然驚覺她竟是傳說中的神仙教母。只因她動了惻隱之心、插手了凡間的一段感情，觸犯天規，被帶回那所古老的學校受罰。公主與王子相視，滿是愧疚。「她會落得如此，全是因為幫了我們。那麼，就換我們去，把她找回來。」" },
     ],
   },
   ch4: {
@@ -719,6 +742,115 @@ function Station({ cols }) {
   );
 }
 
+/* ---------- 捷運出站閘門（讓玩家以為要出去） ---------- */
+function FareGates({ z = -23 }) {
+  const units = [-3.6, -1.2, 1.2, 3.6]; // 4 台閘機 → 3 條通道（中間通道置中）
+  return (
+    <group position={[0, 0, z]}>
+      {units.map((x, i) => (
+        <group key={i} position={[x, 0, 0]}>
+          {/* 閘機機身 + 不鏽鋼頂蓋 */}
+          <mesh position={[0, 0.5, 0]} castShadow receiveShadow><boxGeometry args={[0.4, 1.0, 1.7]} /><meshStandardMaterial color="#2b3039" roughness={0.5} metalness={0.5} /></mesh>
+          <mesh position={[0, 1.01, 0]}><boxGeometry args={[0.44, 0.06, 1.7]} /><meshStandardMaterial color="#aab2c0" roughness={0.4} metalness={0.6} /></mesh>
+          {/* 感應區綠燈 + 通行綠箭頭（看似可出站） */}
+          <mesh position={[0, 1.06, 0.55]}><boxGeometry args={[0.18, 0.04, 0.26]} /><meshStandardMaterial color="#46e08a" emissive="#46e08a" emissiveIntensity={1.3} /></mesh>
+          <mesh position={[0, 1.06, 0.05]} rotation={[-Math.PI / 2, 0, 0]}><coneGeometry args={[0.08, 0.18, 3]} /><meshStandardMaterial color="#46e08a" emissive="#46e08a" emissiveIntensity={1.0} /></mesh>
+        </group>
+      ))}
+      {/* 通道玻璃擋板（半透明，前後各一片像收合翼門） */}
+      {[-2.4, 0, 2.4].map((x, i) => ([-0.55, 0.55].map((dz, j) => (
+        <mesh key={i + "-" + j} position={[x, 0.5, dz]}><boxGeometry args={[2.0, 0.7, 0.03]} /><meshStandardMaterial color="#bfe6ff" transparent opacity={0.26} emissive="#7fb8ff" emissiveIntensity={0.35} side={THREE.DoubleSide} /></mesh>
+      ))))}
+      {/* 出口指示燈箱：誤導玩家以為這裡能出去 */}
+      <Html position={[0, 2.55, 0]} transform distanceFactor={11} zIndexRange={[6, 0]} style={{ pointerEvents: "none" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 22px", borderRadius: 6, background: "#0d6b39", border: "2px solid #6affb0", boxShadow: "0 0 26px #46e08a88", color: "#eafff2", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif', whiteSpace: "nowrap" }}>
+          <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 5 }}>出口</span>
+          <span style={{ fontSize: 16, letterSpacing: 2, opacity: 0.9 }}>Exit ↑</span>
+        </div>
+      </Html>
+      <pointLight position={[0, 2.3, 1.4]} intensity={1.6} distance={13} color="#9affd0" />
+    </group>
+  );
+}
+
+/* ---------- 月台上來往的旅客（第一章氛圍） ---------- */
+function Commuter({ x, z0, z1, speed, color, seed }) {
+  const ref = useRef(), armL = useRef(), armR = useRef();
+  useFrame((s) => {
+    const g = ref.current; if (!g) return;
+    const t = s.clock.elapsedTime * speed + seed;
+    const u = (Math.sin(t) + 1) / 2;        // 0..1 來回
+    g.position.x = x;
+    g.position.z = z0 + (z1 - z0) * u;
+    const vz = (z1 - z0) * Math.cos(t);      // 移動方向
+    g.rotation.y = vz >= 0 ? 0 : Math.PI;
+    if (!reduceMotion) {
+      const w = Math.sin(s.clock.elapsedTime * 8 + seed);
+      g.position.y = Math.abs(w) * 0.04;
+      if (armL.current) armL.current.rotation.x = w * 0.5;
+      if (armR.current) armR.current.rotation.x = -w * 0.5;
+    }
+  });
+  return (
+    <group ref={ref}>
+      {/* 腿 */}
+      <mesh position={[-0.07, 0.2, 0]}><capsuleGeometry args={[0.06, 0.3, 4, 8]} /><meshStandardMaterial color="#23262f" roughness={0.85} /></mesh>
+      <mesh position={[0.07, 0.2, 0]}><capsuleGeometry args={[0.06, 0.3, 4, 8]} /><meshStandardMaterial color="#23262f" roughness={0.85} /></mesh>
+      {/* 身體（外套） */}
+      <mesh position={[0, 0.78, 0]} castShadow><capsuleGeometry args={[0.17, 0.5, 4, 10]} /><meshStandardMaterial color={color} roughness={0.8} /></mesh>
+      {/* 手臂 */}
+      <group ref={armL} position={[-0.18, 1.0, 0]}><mesh position={[0, -0.2, 0]}><capsuleGeometry args={[0.045, 0.34, 4, 8]} /><meshStandardMaterial color={color} roughness={0.8} /></mesh></group>
+      <group ref={armR} position={[0.18, 1.0, 0]}><mesh position={[0, -0.2, 0]}><capsuleGeometry args={[0.045, 0.34, 4, 8]} /><meshStandardMaterial color={color} roughness={0.8} /></mesh></group>
+      {/* 頭 + 髮 */}
+      <mesh position={[0, 1.28, 0]} castShadow><sphereGeometry args={[0.13, 16, 16]} /><meshStandardMaterial color="#e8c8a8" roughness={0.85} /></mesh>
+      <mesh position={[0, 1.32, -0.01]}><sphereGeometry args={[0.135, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.62]} /><meshStandardMaterial color="#2a2018" roughness={0.95} /></mesh>
+    </group>
+  );
+}
+function Commuters({ count = 11 }) {
+  const colors = ["#3a4a6a", "#6a3a3a", "#33503f", "#544a68", "#6a5a3a", "#3a3a44", "#2a4654", "#5a3a4a", "#46506a", "#5e4636"];
+  const data = useMemo(() => Array.from({ length: count }, (_, i) => {
+    const side = Math.random() < 0.5 ? -1 : 1;
+    const x = side < 0 ? -5.5 + Math.random() * 4 : 1.6 + Math.random() * 2.6; // 走道兩側，留出中央給主角
+    const len = 7 + Math.random() * 15;
+    const zc = -16 + Math.random() * 24;
+    return { x, z0: zc - len / 2, z1: zc + len / 2, speed: 0.22 + Math.random() * 0.4, color: colors[i % colors.length], seed: Math.random() * Math.PI * 2 };
+  }), [count]);
+  return <>{data.map((d, i) => <Commuter key={i} {...d} />)}</>;
+}
+
+/* ---------- 月台牆上的電影海報 / 燈箱看板（第一章） ---------- */
+function Posters() {
+  const wallX = -6.4; // 左牆內面
+  const list = [
+    { z: 10, bg: "linear-gradient(160deg,#1f3a5e,#08121e)", icon: "❤", title: "那些年", sub: "You Are the Apple of My Eye", c: "#7fd0ff" },
+    { z: 3, bg: "linear-gradient(160deg,#3a1c34,#140610)", icon: "💌", title: "我的少女時代", sub: "Our Times · 熱映中", c: "#ff9ab0" },
+    { z: -5, bg: "linear-gradient(160deg,#2a3a1c,#0c1206)", icon: "✉", title: "海角七號", sub: "Cape No. 7", c: "#f2c46a" },
+    { z: -13, bg: "linear-gradient(160deg,#3a1414,#140404)", icon: "👁", title: "咒", sub: "Incantation", c: "#e0664a" },
+    { z: -20, bg: "linear-gradient(160deg,#161210,#070504)", icon: "🪢", title: "粽邪", sub: "The Rope Curse · 限定重映", c: "#c8a85a" },
+  ];
+  return (
+    <group>
+      {list.map((p, i) => (
+        <group key={i} position={[wallX, 3.7, p.z]} rotation={[0, Math.PI / 2, 0]}>
+          {/* 燈箱外框（牆上微微發光） */}
+          <mesh position={[0, 0, -0.05]}><boxGeometry args={[1.95, 2.85, 0.1]} /><meshStandardMaterial color="#0c0d14" emissive={p.c} emissiveIntensity={0.14} /></mesh>
+          <Html transform distanceFactor={8} position={[0, 0, 0.02]} zIndexRange={[5, 0]} style={{ pointerEvents: "none" }}>
+            <div style={{ width: 150, height: 222, borderRadius: 5, overflow: "hidden", border: "3px solid #0b0b11", boxShadow: `0 0 22px ${p.c}66`, background: p.bg, display: "flex", flexDirection: "column", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif' }}>
+              <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 62, color: p.c, filter: `drop-shadow(0 0 12px ${p.c})` }}>{p.icon}</div>
+              <div style={{ padding: "9px 8px 12px", background: "rgba(0,0,0,0.5)", textAlign: "center" }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: 3 }}>{p.title}</div>
+                <div style={{ fontSize: 8.5, color: p.c, opacity: 0.9, marginTop: 5, letterSpacing: 1 }}>{p.sub}</div>
+              </div>
+            </div>
+          </Html>
+          <pointLight position={[0, 1.7, 0.7]} intensity={0.55} distance={4.5} color={p.c} />
+        </group>
+      ))}
+    </group>
+  );
+}
+
 /* ---------- 神祕的婆婆（第一章過場：聚焦 → 念咒 → 變盒 → 講述 → 化煙消散 → 開盒現紙） ---------- */
 function OldWoman({ npc, playerPos, paused, cutscene, onCutsceneEnd }) {
   const grp = useRef(), bodyG = useRef(), boxG = useRef(), lidRef = useRef(), tip = useRef();
@@ -738,9 +870,10 @@ function OldWoman({ npc, playerPos, paused, cutscene, onCutsceneEnd }) {
     if (phase === "idle") {
       if (playerPos && Math.hypot(npc.trigger[0] - px, npc.trigger[1] - pz) < 2.4) { if (paused) paused.current = true; tStart.current = t; setPhase("walk"); }
     } else if (phase === "walk") {
-      cur.current.x += (npc.walkTo[0] - cur.current.x) * Math.min(1, dt * 1.8);
-      cur.current.z += (npc.walkTo[2] - cur.current.z) * Math.min(1, dt * 1.8);
-      if (el > 2.4) { tStart.current = t; setPhase("chant"); }
+      const sp = npc.dash ? 5.0 : 1.8; // 衝出來的速度
+      cur.current.x += (npc.walkTo[0] - cur.current.x) * Math.min(1, dt * sp);
+      cur.current.z += (npc.walkTo[2] - cur.current.z) * Math.min(1, dt * sp);
+      if (el > (npc.dash ? 1.2 : 2.4)) { tStart.current = t; setPhase("chant"); }
     } else if (phase === "chant") {
       if (el > 3.4) { tStart.current = t; setPhase("conjure"); }
     } else if (phase === "conjure") {
@@ -859,6 +992,138 @@ function OldWoman({ npc, playerPos, paused, cutscene, onCutsceneEnd }) {
         </group>
       )}
     </>
+  );
+}
+
+/* ---------- 龍羽王子（第三章劇情：朝公主跑來相認 → 對話 → 解凍） ---------- */
+function Prince({ npc, playerPos, paused, cutscene, groundY, onEnd }) {
+  const grp = useRef(), armL = useRef(), armR = useRef();
+  const [phase, setPhase] = useState("idle"); // idle → run → speak → follow（之後一直跟著公主）
+  const [lineIdx, setLineIdx] = useState(0);
+  const tStart = useRef(0);
+  const walk = useRef(0);
+  const cur = useRef(new THREE.Vector3(npc.side[0], 0, npc.side[2]));
+
+  useFrame((s, dt) => {
+    const t = s.clock.elapsedTime;
+    const g = grp.current; if (!g) return;
+    const el = t - tStart.current;
+    const px = playerPos ? playerPos.current.x : 0, pz = playerPos ? playerPos.current.z : 0;
+    let moving = false, faceY = g.rotation.y;
+
+    if (phase === "idle") {
+      faceY = Math.atan2(px - cur.current.x, pz - cur.current.z);
+      if (playerPos && Math.hypot(npc.trigger[0] - px, npc.trigger[1] - pz) < 2.8) { if (paused) paused.current = true; tStart.current = t; setPhase("run"); }
+    } else if (phase === "run") {
+      cur.current.x += (npc.walkTo[0] - cur.current.x) * Math.min(1, dt * 5);
+      cur.current.z += (npc.walkTo[2] - cur.current.z) * Math.min(1, dt * 5);
+      moving = true; faceY = Math.atan2(px - cur.current.x, pz - cur.current.z);
+      if (el > 1.3) { tStart.current = t; setLineIdx(0); setPhase("speak"); }
+    } else if (phase === "speak") {
+      faceY = Math.atan2(px - cur.current.x, pz - cur.current.z);
+      const dwell = 3 + (npc.lines[lineIdx]?.t.length || 16) * 0.05;
+      if (el > dwell) { if (lineIdx < npc.lines.length - 1) { setLineIdx((i) => i + 1); tStart.current = t; } else { setPhase("follow"); if (onEnd) onEnd(); else if (paused) paused.current = false; } }
+    } else if (phase === "follow") {
+      // 跟在公主右後方，太遠才追上去
+      const tx = px + 1.15, tz = pz + 1.0, ox = cur.current.x, oz = cur.current.z;
+      if (Math.hypot(tx - ox, tz - oz) > 0.7) {
+        cur.current.x += (tx - ox) * Math.min(1, dt * 3.2);
+        cur.current.z += (tz - oz) * Math.min(1, dt * 3.2);
+      }
+      const mvx = cur.current.x - ox, mvz = cur.current.z - oz;
+      moving = Math.hypot(mvx, mvz) > 0.004;
+      faceY = moving ? Math.atan2(mvx, mvz) : Math.atan2(px - cur.current.x, pz - cur.current.z);
+    }
+
+    // 走路擺動（上下晃 + 手臂前後）
+    if (!reduceMotion && moving) walk.current += dt * 9;
+    cur.current.y = (groundY ? groundY(cur.current.z) : 0) + (!reduceMotion && moving ? Math.abs(Math.sin(walk.current)) * 0.05 : 0);
+    g.position.copy(cur.current);
+    let d = faceY - g.rotation.y; while (d > Math.PI) d -= Math.PI * 2; while (d < -Math.PI) d += Math.PI * 2;
+    g.rotation.y += d * Math.min(1, dt * 8);
+    const sw = (!reduceMotion && moving) ? Math.sin(walk.current) : 0;
+    if (armL.current) armL.current.rotation.x = sw * 0.5;
+    if (armR.current) armR.current.rotation.x = -sw * 0.5;
+
+    if (cutscene) {
+      cutscene.current.active = phase === "run" || phase === "speak";
+      if (cutscene.current.active) {
+        const mx = (px + cur.current.x) / 2, mz = (pz + cur.current.z) / 2;
+        const gy = groundY ? groundY(mz) : 0;
+        cutscene.current.focus.set(mx, gy + 1.3, mz);
+        cutscene.current.cam.set(mx - 2.6, gy + 2.1, mz + 4.2);
+      }
+    }
+  });
+
+  const speaking = phase === "speak";
+  const line = npc.lines[lineIdx] || {};
+  const jacket = "#2a4a6a", trim = "#e8c878", pants = "#20283a", cape = "#7a2233", skin = "#f0d2b4", hair = "#241a12", boot = "#15110b";
+  return (
+    <>
+      <group ref={grp}>
+        {/* 披風 */}
+        <mesh position={[0, 1.0, -0.14]} rotation={[0.12, 0, 0]} castShadow><coneGeometry args={[0.36, 1.25, 18, 1, true]} /><meshStandardMaterial color={cape} roughness={0.7} side={THREE.DoubleSide} /></mesh>
+        {/* 腿 + 靴 */}
+        <mesh position={[-0.11, 0.42, 0]}><capsuleGeometry args={[0.085, 0.5, 4, 10]} /><meshStandardMaterial color={pants} roughness={0.8} /></mesh>
+        <mesh position={[0.11, 0.42, 0]}><capsuleGeometry args={[0.085, 0.5, 4, 10]} /><meshStandardMaterial color={pants} roughness={0.8} /></mesh>
+        <mesh position={[-0.11, 0.08, 0.04]}><boxGeometry args={[0.17, 0.16, 0.28]} /><meshStandardMaterial color={boot} roughness={0.6} /></mesh>
+        <mesh position={[0.11, 0.08, 0.04]}><boxGeometry args={[0.17, 0.16, 0.28]} /><meshStandardMaterial color={boot} roughness={0.6} /></mesh>
+        {/* 外套 + 前襟金線 + 腰帶 */}
+        <mesh position={[0, 1.12, 0]} castShadow><cylinderGeometry args={[0.19, 0.23, 0.82, 18]} /><meshStandardMaterial color={jacket} roughness={0.6} metalness={0.15} /></mesh>
+        <mesh position={[0, 1.12, 0.2]}><boxGeometry args={[0.04, 0.78, 0.02]} /><meshStandardMaterial color={trim} emissive={trim} emissiveIntensity={0.4} metalness={0.5} roughness={0.4} /></mesh>
+        <mesh position={[0, 0.76, 0]}><cylinderGeometry args={[0.235, 0.235, 0.08, 18]} /><meshStandardMaterial color={trim} emissive={trim} emissiveIntensity={0.3} metalness={0.5} /></mesh>
+        {/* 肩章 */}
+        <mesh position={[-0.22, 1.46, 0]}><sphereGeometry args={[0.08, 12, 12]} /><meshStandardMaterial color={trim} emissive={trim} emissiveIntensity={0.3} metalness={0.6} /></mesh>
+        <mesh position={[0.22, 1.46, 0]}><sphereGeometry args={[0.08, 12, 12]} /><meshStandardMaterial color={trim} emissive={trim} emissiveIntensity={0.3} metalness={0.6} /></mesh>
+        {/* 手臂 + 手 */}
+        <group ref={armL} position={[-0.24, 1.42, 0]}>
+          <mesh position={[0, -0.26, 0]}><capsuleGeometry args={[0.06, 0.4, 4, 10]} /><meshStandardMaterial color={jacket} roughness={0.6} /></mesh>
+          <mesh position={[0, -0.5, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skin} roughness={0.8} /></mesh>
+        </group>
+        <group ref={armR} position={[0.24, 1.42, 0]}>
+          <mesh position={[0, -0.26, 0]}><capsuleGeometry args={[0.06, 0.4, 4, 10]} /><meshStandardMaterial color={jacket} roughness={0.6} /></mesh>
+          <mesh position={[0, -0.5, 0]}><sphereGeometry args={[0.06, 12, 12]} /><meshStandardMaterial color={skin} roughness={0.8} /></mesh>
+        </group>
+        {/* 頸 + 頭 + 短髮 + 金冠 */}
+        <mesh position={[0, 1.57, 0]}><cylinderGeometry args={[0.06, 0.07, 0.1, 10]} /><meshStandardMaterial color={skin} roughness={0.82} /></mesh>
+        <mesh position={[0, 1.72, 0]} castShadow><sphereGeometry args={[0.16, 24, 24]} /><meshStandardMaterial color={skin} roughness={0.8} /></mesh>
+        <mesh position={[0, 1.8, -0.01]}><sphereGeometry args={[0.172, 24, 20, 0, Math.PI * 2, 0, Math.PI * 0.55]} /><meshStandardMaterial color={hair} roughness={0.92} /></mesh>
+        <mesh position={[0, 1.83, 0.02]} rotation={[0.18, 0, 0]}><torusGeometry args={[0.13, 0.016, 8, 24]} /><meshStandardMaterial color={trim} emissive={trim} emissiveIntensity={0.7} metalness={0.7} roughness={0.3} /></mesh>
+        <mesh position={[0, 1.88, 0.12]}><sphereGeometry args={[0.022, 12, 12]} /><meshStandardMaterial color="#ff6a5a" emissive="#ff5a4a" emissiveIntensity={1.2} /></mesh>
+        {/* 對話泡泡 */}
+        {speaking && (
+          <Html position={[0, 2.25, 0]} center zIndexRange={[10, 0]} style={{ pointerEvents: "none" }}>
+            <div style={{ width: 300, padding: "13px 16px", borderRadius: 12, border: `1px solid ${line.who ? "#9fd0ff66" : "#ffffff33"}`, background: "rgba(10,14,22,0.92)", textAlign: "center", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif', boxShadow: "0 0 26px #00000088" }}>
+              {line.who && <div style={{ fontSize: 11, letterSpacing: "4px", color: "#9fd0ff", opacity: 0.85, marginBottom: 8 }}>{line.who}</div>}
+              <div style={{ fontSize: 14, lineHeight: 1.95, color: line.who ? "#dde5f2" : "#c9bce4", fontStyle: line.who ? "normal" : "italic" }}>{line.who ? `「${line.t}」` : line.t}</div>
+              <div style={{ marginTop: 8, fontSize: 10, letterSpacing: "3px", color: "#9fd0ff", opacity: 0.55 }}>{lineIdx + 1} / {npc.lines.length}</div>
+            </div>
+          </Html>
+        )}
+      </group>
+    </>
+  );
+}
+
+/* ---------- 橋邊小屋（第三章：兩人住下的家） ---------- */
+function House({ pos }) {
+  const wall = "#4a3526", roof = "#5a2a22", wood = "#2e1d12", warm = "#ffcf8a";
+  return (
+    <group position={pos}>
+      <mesh position={[0, 0.75, 0]} castShadow receiveShadow><boxGeometry args={[2.4, 1.5, 2.1]} /><meshStandardMaterial color={wall} roughness={0.9} /></mesh>
+      <mesh position={[0, 1.85, 0]} rotation={[0, Math.PI / 4, 0]} castShadow><coneGeometry args={[1.85, 1.0, 4]} /><meshStandardMaterial color={roof} roughness={0.85} /></mesh>
+      {/* 門 + 門把 */}
+      <mesh position={[0, 0.5, 1.06]}><boxGeometry args={[0.62, 1.0, 0.06]} /><meshStandardMaterial color={wood} roughness={0.8} /></mesh>
+      <mesh position={[0.22, 0.5, 1.11]}><sphereGeometry args={[0.03, 8, 8]} /><meshStandardMaterial color={warm} emissive={warm} emissiveIntensity={0.6} /></mesh>
+      {/* 窗（暖光） */}
+      {[-0.78, 0.78].map((x, i) => (
+        <mesh key={i} position={[x, 0.95, 1.06]}><boxGeometry args={[0.5, 0.5, 0.05]} /><meshStandardMaterial color={warm} emissive={warm} emissiveIntensity={1.1} /></mesh>
+      ))}
+      {/* 煙囪 */}
+      <mesh position={[0.7, 2.05, -0.45]}><boxGeometry args={[0.3, 0.7, 0.3]} /><meshStandardMaterial color={wall} roughness={0.9} /></mesh>
+      <pointLight position={[0, 1.0, 1.8]} intensity={1.8} distance={9} color={warm} />
+    </group>
   );
 }
 
@@ -1071,7 +1336,7 @@ function StoryCard({ pos, rot = 0, kicker, text, accent, playerPos, reveal }) {
 }
 
 /* ---------- 單一場景的 3D 內容 ---------- */
-function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPitch, suck, cutscene, onCutsceneEnd }) {
+function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPitch, suck, cutscene, onCutsceneEnd, onReunionEnd }) {
   const trees = useMemo(() => scene.decor === "forest" ? makeTrees(150, scene.bounds, scene.clearing) : [], [scene]);
   const rails = useMemo(() => scene.decor === "bridge" ? makeRailings() : [], [scene]);
   const buildings = useMemo(() => scene.decor === "city" ? makeCity(64, scene.bounds) : [], [scene]);
@@ -1081,6 +1346,7 @@ function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPi
   const obstacles = useMemo(() => {
     const list = [...trees, ...rails, ...buildings, ...cols, ...halls, ...stationCols, { x: scene.gate.pos[0], z: scene.gate.pos[2], r: 2.2 }];
     if (scene.npc) list.push({ x: scene.npc.walkTo[0], z: scene.npc.walkTo[2], r: 0.6 });
+    if (scene.house) list.push({ x: scene.house.x, z: scene.house.z, r: 1.4 });
     return list;
   }, [trees, rails, buildings, cols, halls, stationCols, scene]);
   const groundR = (scene.bounds.r || 44) + 14;
@@ -1094,11 +1360,18 @@ function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPi
       <hemisphereLight args={["#23406a", scene.bg, 0.5]} />
       <directionalLight position={[8, 16, 6]} intensity={0.9} color="#aac4ff" castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-30} shadow-camera-right={30} shadow-camera-top={30} shadow-camera-bottom={-30} />
       <Ground color={scene.ground} r={groundR} />
-      {scene.decor === "forest" && <><Trees data={trees} /><Fireflies r={scene.bounds.r} />{scene.clearing && <><Clearing pos={scene.clearing.pos} r={scene.clearing.r} /><Animals pos={scene.clearing.pos} r={scene.clearing.r} /></>}</>}
+      {scene.decor === "forest" && <>
+        {/* 月光補光：讓黑森林整體變亮、手機也看得清楚 */}
+        <hemisphereLight args={["#a4c8d0", "#1a2c20", 0.75]} />
+        <pointLight position={[0, 16, -6]} intensity={3.2} distance={95} color="#dcebe4" />
+        <Trees data={trees} /><Fireflies r={scene.bounds.r} />{scene.clearing && <><Clearing pos={scene.clearing.pos} r={scene.clearing.r} /><Animals pos={scene.clearing.pos} r={scene.clearing.r} /></>}
+      </>}
       {scene.decor === "bridge" && <><Bridge rails={rails} /><Motorcycles /><HeavenTerrace pos={[0, BR_TOP, -37]} /></>}
+      {scene.house && <House pos={[scene.house.x, scene.groundY ? scene.groundY(scene.house.z) : 0, scene.house.z]} />}
       {scene.decor === "city" && <City data={buildings} />}
-      {scene.decor === "station" && <Station cols={stationCols} />}
+      {scene.decor === "station" && <><Station cols={stationCols} /><FareGates z={-25} /><Commuters /><Posters /></>}
       {scene.npc && <OldWoman npc={scene.npc} playerPos={playerPos} paused={paused} cutscene={cutscene} onCutsceneEnd={onCutsceneEnd} />}
+      {scene.reunion && <Prince npc={scene.reunion} playerPos={playerPos} paused={paused} cutscene={cutscene} groundY={scene.groundY} onEnd={onReunionEnd} />}
       {scene.decor === "temple" && <><Temple cols={cols} /><Motes color="#ecd49a" r={6} count={44} /></>}
       {scene.decor === "door" && <Motes color="#f6c87e" r={scene.bounds.r} rise size={0.14} />}
       {scene.decor === "hall" && <><Hall cols={halls} /><Motes color="#f2d78c" r={6} count={32} /></>}
@@ -1361,6 +1634,31 @@ function IntroBook({ onEnter }) {
   );
 }
 
+/* ---------- 第二章進場：腦海裡的聲音（前言） ---------- */
+function VoicePreface({ lines, onDone, button = "走進森林", bg = "radial-gradient(circle at 50% 38%, #0e2118 0%, #081410 60%, #040806 100%)" }) {
+  return (
+    <div className="vp-root" style={{ background: bg }}>
+      <div className="vp-panel">
+        {lines.map((l, i) => (
+          <p key={i} className={l.q ? "vp-q" : "vp-n"} style={{ animationDelay: `${0.3 + i * 0.55}s` }}>{l.q ? `「${l.t}」` : l.t}</p>
+        ))}
+        <button className="vp-btn" style={{ animationDelay: `${0.5 + lines.length * 0.55}s` }} onClick={onDone}>{button}</button>
+      </div>
+      <style>{`
+        .vp-root{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:7vh 22px;overflow:auto;
+          font-family:-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+        .vp-panel{max-width:600px;width:100%;text-align:center}
+        .vp-n{margin:0 0 20px;font-size:clamp(13px,3.4vw,15px);line-height:1.9;color:#bcd0c2;letter-spacing:1px;opacity:0;animation:vpIn .9s ease forwards}
+        .vp-q{margin:0 0 16px;font-size:clamp(15px,4vw,19px);line-height:1.95;color:#a8e6b8;font-style:italic;letter-spacing:1px;text-shadow:0 0 18px #6fd09866;opacity:0;animation:vpIn 1s ease forwards}
+        .vp-btn{margin-top:24px;padding:12px 30px;border-radius:10px;border:1px solid #8fe0a8aa;background:rgba(16,32,24,.6);color:#cfeed8;font-size:14px;letter-spacing:4px;cursor:pointer;opacity:0;animation:vpIn .8s ease forwards}
+        .vp-btn:hover{background:rgba(26,46,34,.75)}
+        @keyframes vpIn{to{opacity:1}}
+        @media (prefers-reduced-motion:reduce){.vp-n,.vp-q,.vp-btn{animation:none;opacity:1}}
+      `}</style>
+    </div>
+  );
+}
+
 /* ---------- 踏入序章：墜入月門 → 黑森林的轉場特效 ---------- */
 function EnterTransition({ onDone }) {
   useEffect(() => { const t = setTimeout(onDone, reduceMotion ? 320 : 2600); return () => clearTimeout(t); }, [onDone]);
@@ -1415,17 +1713,19 @@ export default function World3D({ onExit }) {
   const [done, setDone] = useState(false);
   const [intro, setIntro] = useState(() => !!SCENES[sceneId].intro);
   const [entering, setEntering] = useState(false); // 踏入序章的轉場特效進行中
+  const [narration, setNarration] = useState(null); // 相認後的旁白序章段
   const scene = SCENES[sceneId];
 
   // 序曲進場時翻書（含轉場），期間凍結移動
   useEffect(() => { paused.current = intro; }, [intro]);
 
   // 每次切換場景，鏡頭視角歸正面、解除吸入狀態
-  useEffect(() => { camYaw.current = 0; camPitch.current = 0; suck.current = false; cutscene.current.active = false; }, [sceneId]);
+  useEffect(() => { camYaw.current = 0; camPitch.current = 0; suck.current = false; cutscene.current.active = false; setIntro(!!SCENES[sceneId].intro); }, [sceneId]);
 
   // 走近月門 → 凍結移動；序曲設了 autoEnter，直接被吸入下一章，其餘開啟密碼鎖
+  // 有婆婆過場的場景（第一章）由過場本身觸發密碼，不在走近閘門時觸發
   useEffect(() => {
-    if (near && !puzzle && !done) {
+    if (near && !puzzle && !done && !scene.npc) {
       paused.current = true; input.current.x = 0; input.current.z = 0;
       if (scene.autoEnter) { suck.current = true; solve(); }
       else setPuzzle(true);
@@ -1446,14 +1746,20 @@ export default function World3D({ onExit }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: scene.bg, overflow: "hidden" }}>
       <Canvas key={sceneId} shadows dpr={[1, 1.6]} gl={{ antialias: true, powerPreference: "high-performance" }} camera={{ position: [0, 2.7, 22], fov: 52 }}>
-        <SceneContents scene={scene} input={input} paused={paused} onNearGate={setNear} reveal={!intro} camYaw={camYaw} camPitch={camPitch} suck={suck} cutscene={cutscene} onCutsceneEnd={() => setPuzzle(true)} />
+        <SceneContents scene={scene} input={input} paused={paused} onNearGate={setNear} reveal={!intro} camYaw={camYaw} camPitch={camPitch} suck={suck} cutscene={cutscene} onCutsceneEnd={() => setPuzzle(true)} onReunionEnd={() => setNarration(scene.reunion?.after || null)} />
       </Canvas>
 
       <LookControl yaw={camYaw} pitch={camPitch} hidden={puzzle || done || intro} />
       <Joystick input={input} hidden={puzzle || done || intro} />
 
-      {intro && !entering && <IntroBook onEnter={() => setEntering(true)} />}
+      {intro && !entering && (
+        scene.intro === "voice"
+          ? <VoicePreface lines={scene.preface} onDone={() => { setIntro(false); paused.current = false; }} />
+          : <IntroBook onEnter={() => setEntering(true)} />
+      )}
       {entering && <EnterTransition onDone={() => { setEntering(false); setIntro(false); paused.current = false; }} />}
+      {/* 相認後的旁白序章段（看完才把畫面交回玩家） */}
+      {narration && <VoicePreface lines={narration} button="回到大橋" bg="radial-gradient(circle at 50% 40%, #1a1014 0%, #0c0608 60%, #050304 100%)" onDone={() => { setNarration(null); paused.current = false; }} />}
 
       {/* 場景名 + 操作提示 */}
       <div style={{ position: "fixed", top: 16, left: "50%", transform: "translateX(-50%)", zIndex: 20, textAlign: "center", color: "#cdd6e6", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif', textShadow: "0 1px 6px #000", pointerEvents: "none" }}>
@@ -1461,7 +1767,7 @@ export default function World3D({ onExit }) {
       </div>
 
       {/* 接近提示 */}
-      {near && !puzzle && !done && !fade && (
+      {near && !puzzle && !done && !fade && !scene.gate.hidden && (
         <div style={{ position: "fixed", left: "50%", top: "42%", transform: "translateX(-50%)", zIndex: 20, textAlign: "center", color: scene.gate.glow, pointerEvents: "none", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif' }}>
           <div style={{ fontSize: 12, letterSpacing: "6px", opacity: 0.85, marginBottom: 8 }}>✦ {scene.gate.label} ✦</div>
           <div style={{ fontSize: "clamp(20px,5vw,28px)", letterSpacing: "3px", fontWeight: 700, textShadow: `0 0 24px ${scene.gate.glow}88` }}>命運之門就在眼前</div>
@@ -1496,14 +1802,12 @@ export default function World3D({ onExit }) {
           <div style={{ fontSize: 13, letterSpacing: "8px", color: "#f6c87e", marginBottom: 14 }}>◇ 最 後 一 道 測 試 ◇</div>
           <div style={{ fontSize: "clamp(24px,6.5vw,38px)", color: "#f4e4c4", letterSpacing: "3px", fontWeight: 700, textShadow: "0 0 30px #f6c87e55" }}>門，為你們而開</div>
           <div style={{ marginTop: 16, fontSize: "clamp(14px,3vw,16px)", color: "#a88c76", letterSpacing: "2px", lineHeight: 1.8, maxWidth: 380, padding: "0 20px" }}>一路走來的迷宮、森林、大橋與學堂，都是為了引你們到此。<br/>而這道測試的答案，將解開這一切的來龍去脈……</div>
-          <button onClick={onExit} style={{ marginTop: 30, padding: "12px 28px", borderRadius: 10, border: "1px solid #c9a86a88", background: "rgba(26,18,12,0.6)", color: "#f4e4c4", fontSize: 14, letterSpacing: "3px", cursor: "pointer" }}>回到故事</button>
+          <button onClick={onExit} style={{ marginTop: 30, padding: "12px 28px", borderRadius: 10, border: "1px solid #c9a86a88", background: "rgba(26,18,12,0.6)", color: "#f4e4c4", fontSize: 14, letterSpacing: "3px", cursor: "pointer" }}>從頭再走一次</button>
         </div>
       )}
 
       {/* 切換場景的金光淡入淡出 */}
       <div style={{ position: "fixed", inset: 0, zIndex: 30, pointerEvents: "none", background: `radial-gradient(circle at 50% 45%, ${scene.gate.glow}, ${scene.gate.glow}cc)`, opacity: fade ? 1 : 0, transition: "opacity .6s ease" }} />
-
-      <button onClick={onExit} style={{ position: "fixed", right: 18, top: 14, zIndex: 50, padding: "8px 16px", borderRadius: 8, border: "1px solid #c9a86a66", background: "rgba(13,20,34,0.7)", color: "#f2d78c", fontSize: 13, letterSpacing: "2px", cursor: "pointer", backdropFilter: "blur(4px)" }}>← 離開</button>
 
       <style>{`@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}`}</style>
     </div>

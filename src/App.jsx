@@ -380,14 +380,8 @@ export default function App(){
   const [solved,setSolved]=useState(()=>new Set());
   const [top,setTop]=useState(false);
   const [unlock,setUnlock]=useState(null);
-  const [walk,setWalk]=useState(()=> typeof window!=="undefined" && window.location.hash==="#forest3d");
+  const [walk]=useState(true); // 3D 世界即首頁，不再有故事網頁／離開
   const wrap=useRef(null);
-
-  /* 3D 森林：以 #forest3d 進出，不影響故事網頁 */
-  useEffect(()=>{
-    const on=()=>setWalk(window.location.hash==="#forest3d");
-    window.addEventListener("hashchange",on); return ()=>window.removeEventListener("hashchange",on);
-  },[]);
 
   /* 過關 → 開門特效 → 在金光最亮時切換並捲到下一章 */
   const startUnlock=(i)=>{
@@ -422,7 +416,7 @@ export default function App(){
   if(walk){
     return (
       <Suspense fallback={<div style={{position:"fixed",inset:0,background:"#040a08",display:"flex",alignItems:"center",justifyContent:"center",color:"#f2d78c",letterSpacing:"4px"}}>世界甦醒中…</div>}>
-        <World3D onExit={()=>{ window.location.hash=""; }}/>
+        <World3D onExit={()=>{ window.location.reload(); }}/>
       </Suspense>
     );
   }
