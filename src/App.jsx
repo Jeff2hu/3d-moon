@@ -410,7 +410,7 @@ function GameManual({ onStart }){
 
         <Section label="遊戲方式">
           請依照各種場景和文字提示，推測到目標捷運站。<br></br>
-          除序章外章節皆需到達目的地後，。<br></br>在站內找到題目的涵義並找尋到其中的數字，即可解鎖下一章節。
+          除序章外章節皆需到達目的地後，<br></br>在站內找到題目的涵義並找尋到其中的數字，即可解鎖下一章節。
         </Section>
 
         <div style={{textAlign:"center",marginTop:30}}>
