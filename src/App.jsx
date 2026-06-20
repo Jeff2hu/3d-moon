@@ -140,7 +140,17 @@ function DoorGlow(){ return (<div style={{position:"absolute",inset:0,overflow:"
 </div>); }
 
 /* ---------- paragraph rendering ---------- */
-function lines(s){ return s.split("\n").map((l,i)=>(<React.Fragment key={i}>{i>0&&<br/>}{l}</React.Fragment>)); }
+/* 先依手動換行 \n 切，再讓每個「、」或「。」之後也斷行，讀起來更舒服 */
+const BREAK_AFTER=new Set(["，","。","！","？","；","："]);
+function lines(s){
+  const parts=[];
+  s.split("\n").forEach(seg=>{
+    let cur="";
+    for(const ch of seg){ cur+=ch; if(BREAK_AFTER.has(ch)){ parts.push(cur); cur=""; } }
+    if(cur) parts.push(cur);
+  });
+  return parts.map((l,i)=>(<React.Fragment key={i}>{i>0&&<br/>}{l}</React.Fragment>));
+}
 
 function Scene({paras, t}){
   const out=[]; let i=0; let k=0;
@@ -375,7 +385,44 @@ function ChapterSection({ c, idx, next }){
   );
 }
 
+/* ---------- 遊戲開始前的說明書 ---------- */
+function GameManual({ onStart }){
+  const Section=({label,children})=>(
+    <div style={{marginBottom:20}}>
+      <div style={{fontSize:14,fontWeight:800,letterSpacing:"3px",color:"#9c6b2f",marginBottom:8}}>{label}</div>
+      <div style={{fontSize:"clamp(14px,3.6vw,16px)",lineHeight:2,color:"#4a3a22",textAlign:"justify"}}>{children}</div>
+    </div>
+  );
+  return (
+    <div style={{position:"fixed",inset:0,zIndex:80,display:"flex",alignItems:"center",justifyContent:"center",padding:"24px 16px",overflowY:"auto",background:"radial-gradient(circle at 50% 32%, #1a1630 0%, #0a0a18 55%, #05060c 100%)",fontFamily:'-apple-system,"Noto Serif TC","Songti TC","Microsoft JhengHei",serif'}}>
+      <div style={{width:"min(560px,92vw)",margin:"auto",background:"linear-gradient(135deg,#f4ecd6,#e6d8b6)",borderRadius:14,border:"1px solid #b0824a",boxShadow:"0 18px 50px #000a, inset 0 0 60px #b59f6d33",padding:"clamp(26px,5vw,44px) clamp(22px,5vw,40px)",color:"#3a2c18"}}>
+        <div style={{textAlign:"center",fontSize:12,letterSpacing:"7px",color:"#9c6b2f",marginBottom:12}}>遊 戲 說 明 書</div>
+        <h1 style={{textAlign:"center",fontSize:"clamp(20px,5.2vw,28px)",lineHeight:1.4,fontWeight:800,letterSpacing:"1px",color:"#5a3d18",margin:"0 0 6px"}}>城市桌遊尋寶</h1>
+        <div style={{textAlign:"center",fontSize:"clamp(14px,3.8vw,18px)",color:"#7a5526",marginBottom:8}}>第九公主與黑森林的月門</div>
+        <div style={{height:1,background:"linear-gradient(90deg,transparent,#b0824a,transparent)",margin:"16px auto 24px",maxWidth:280}}/>
+
+        <Section label="遊戲人數">2 - 12 人</Section>
+
+        <Section label="故事概要">
+          公主為了找尋愛慕的王子，<br></br>途中不慎掉落傳說中的月中門，來到了現實世界。<br/>
+          為了完成自己的使命，公主將踏上旅程破解散落在捷運站的謎題，解開隱藏中的秘密，以及其背後所隱藏的含義。
+        </Section>
+
+        <Section label="遊戲方式">
+          請依照各種場景和文字提示，推測到目標捷運站。<br></br>
+          除序章和第一章節外，其餘章節需到達目的地後，在站內找到題目的涵義並找尋到其中的數字，即可解鎖下一章節。
+        </Section>
+
+        <div style={{textAlign:"center",marginTop:30}}>
+          <button onClick={onStart} style={{padding:"13px 40px",borderRadius:10,border:"1px solid #8a5a24",background:"linear-gradient(135deg,#caa24f,#a87a32)",color:"#2a1c08",fontSize:"clamp(15px,4vw,17px)",fontWeight:800,letterSpacing:"4px",cursor:"pointer",boxShadow:"0 6px 18px #00000040",fontFamily:'inherit'}}>踏 上 旅 程</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function App(){
+  const [started,setStarted]=useState(false);
   const [prog,setProg]=useState(0);
   const [solved,setSolved]=useState(()=>new Set());
   const [top,setTop]=useState(false);
@@ -414,6 +461,7 @@ export default function App(){
 
   /* 所有 hooks 宣告完才條件渲染 3D 世界，避免 hooks 順序錯亂 */
   if(walk){
+    if(!started) return <GameManual onStart={()=>setStarted(true)}/>;
     return (
       <Suspense fallback={<div style={{position:"fixed",inset:0,background:"#040a08",display:"flex",alignItems:"center",justifyContent:"center",color:"#f2d78c",letterSpacing:"4px"}}>世界甦醒中…</div>}>
         <World3D onExit={()=>{ window.location.reload(); }}/>
