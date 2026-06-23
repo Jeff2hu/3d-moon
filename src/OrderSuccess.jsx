@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 /* ---------- 購買成功頁（展示用購買紀錄 · 後台 / 個人頁面風格） ---------- */
 /* 透過 hash 路由進入：window.location.hash = "order-success" */
@@ -13,6 +13,15 @@ const ORDER = {
   orderNo: "MG-260521-001615",
   date: "2026-05-21 00:16",
   pay: "信用卡（**** 1615）",
+  /* 詳細資料（點「顯示詳細資料」展開） */
+  email: "yuxuan.chen@example.com",
+  phone: "0912-***-615",
+  contact: "陳宇軒",
+  sessionDate: "2026-06-28（六）",
+  sessionTime: "14:00 · 第三場",
+  startStation: "捷運中山站 1 號出口",
+  players: "4 人（含 1 名兒童）",
+  invoice: "電子發票 · 手機條碼 /AB12345",
 };
 
 /* 後台 / 個人頁面用的中性配色 */
@@ -26,6 +35,9 @@ const C = {
   brand:   "#2563eb",
   ok:      "#16a34a",
   okBg:    "#dcfce7",
+  warnBg:  "#fffbeb",
+  warnBd:  "#fde68a",
+  warnInk: "#92400e",
 };
 
 const FONT = '-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
@@ -48,7 +60,27 @@ function Card({ children, style }) {
   );
 }
 
+function CardTitle({ children, right }) {
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:6, paddingBottom:14, borderBottom:`1px solid ${C.border}` }}>
+      <div style={{ fontSize:14, fontWeight:700, color:C.ink }}>{children}</div>
+      {right && <div style={{ marginLeft:"auto" }}>{right}</div>}
+    </div>
+  );
+}
+
+function Notice({ children }) {
+  return (
+    <li style={{ position:"relative", paddingLeft:20, fontSize:14, lineHeight:1.85, color:C.sub }}>
+      <span style={{ position:"absolute", left:2, top:9, width:6, height:6, borderRadius:"50%", background:C.brand }}/>
+      {children}
+    </li>
+  );
+}
+
 export default function OrderSuccess(){
+  const [showDetail, setShowDetail] = useState(false);
+
   return (
     <div style={{ position:"fixed", inset:0, overflowY:"auto", background:C.bg, fontFamily:FONT, color:C.ink }}>
 
@@ -94,9 +126,22 @@ export default function OrderSuccess(){
 
         {/* 訂單明細 */}
         <Card style={{ marginBottom:18 }}>
-          <div style={{ fontSize:14, fontWeight:700, color:C.ink, marginBottom:6, paddingBottom:14, borderBottom:`1px solid ${C.border}` }}>
+          <CardTitle right={
+            <button onClick={()=>setShowDetail(v=>!v)}
+              style={{ padding:"6px 14px", borderRadius:7, border:`1px solid ${C.border}`, background:"#fff",
+                color:C.brand, fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"inherit",
+                display:"inline-flex", alignItems:"center", gap:6 }}>
+              {showDetail ? "收合詳細資料" : "顯示詳細資料"}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+                strokeLinecap="round" strokeLinejoin="round"
+                style={{ transform: showDetail ? "rotate(180deg)" : "none", transition:"transform .2s" }}>
+                <path d="M6 9 L12 15 L18 9" />
+              </svg>
+            </button>
+          }>
             訂單明細
-          </div>
+          </CardTitle>
+
           <Row label="購買人"   value={ORDER.buyer} strong />
           <Row label="商品"     value={ORDER.product} />
           <Row label="版本"     value={ORDER.edition} />
@@ -104,24 +149,61 @@ export default function OrderSuccess(){
           <Row label="訂單編號" value={ORDER.orderNo} />
           <Row label="付款方式" value={ORDER.pay} />
           <Row label="購買時間" value={ORDER.date} />
+
+          {/* 展開後才顯示的詳細資料 */}
+          {showDetail && (
+            <div style={{ marginTop:6, padding:"14px 16px", background:"#f8fafc", border:`1px solid ${C.border}`, borderRadius:10 }}>
+              <div style={{ fontSize:12, fontWeight:700, letterSpacing:"1px", color:C.muted, marginBottom:4 }}>場次與聯絡資料</div>
+              <Row label="預約場次" value={`${ORDER.sessionDate} ${ORDER.sessionTime}`} />
+              <Row label="集合地點" value={ORDER.startStation} />
+              <Row label="遊玩人數" value={ORDER.players} />
+              <Row label="聯絡人"   value={ORDER.contact} />
+              <Row label="聯絡電話" value={ORDER.phone} />
+              <Row label="電子信箱" value={ORDER.email} />
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", gap:16, padding:"13px 0 0" }}>
+                <span style={{ fontSize:14, color:C.sub }}>發票資訊</span>
+                <span style={{ fontSize:14, fontWeight:500, color:C.ink, textAlign:"right" }}>{ORDER.invoice}</span>
+              </div>
+            </div>
+          )}
+
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", gap:16, paddingTop:14 }}>
             <span style={{ fontSize:14, color:C.sub }}>實付金額</span>
             <span style={{ fontSize:20, fontWeight:800, color:C.brand }}>{ORDER.price}</span>
           </div>
         </Card>
 
+        {/* 遊玩須知 / 注意事項 */}
+        <Card style={{ marginBottom:18 }}>
+          <CardTitle>遊玩須知</CardTitle>
+          <div style={{ background:C.warnBg, border:`1px solid ${C.warnBd}`, borderRadius:10, padding:"12px 16px",
+            fontSize:13.5, color:C.warnInk, lineHeight:1.7, marginBottom:16 }}>
+            ⚠️ 開始遊玩前，請務必詳閱以下說明，並確認您的預約場次與集合資訊。
+          </div>
+          <ul style={{ listStyle:"none", margin:0, padding:0, display:"flex", flexDirection:"column", gap:10 }}>
+            <Notice>本遊戲為台北捷運實境解謎，請先預約場次。</Notice>
+            <Notice>遊玩前請詳閱遊戲說明書與安全須知，並全程留意周遭交通與行人安全。</Notice>
+            <Notice>建議攜帶可上網的智慧型手機並維持電量充足，部分謎題需掃描 QR Code。</Notice>
+            <Notice>票券一經售出，恕不退換；如需<strong style={{ color:C.ink }}>更改場次或餐廳訂位詢問</strong>，請於<strong style={{ color:C.ink }}>遊玩日 3 日前</strong>聯繫客服。</Notice>
+            <Notice>捷運車資、餐廳等額外費用須由玩家自行負擔，恕不包含於票價內。</Notice>
+          </ul>
+
+          {/* 訂位 / 聯絡資訊 */}
+          <div style={{ marginTop:16, paddingTop:16, borderTop:`1px solid ${C.border}`,
+            display:"flex", flexWrap:"wrap", gap:"10px 28px", fontSize:13.5, color:C.sub }}>
+            <span>🕘 服務時間：每日 10:00 – 19:00</span>
+          </div>
+        </Card>
+
         {/* 入場憑證 */}
         <Card style={{ marginBottom:18, textAlign:"center" }}>
-          <div style={{ fontSize:14, fontWeight:700, color:C.ink, marginBottom:16, textAlign:"left",
-            paddingBottom:14, borderBottom:`1px solid ${C.border}` }}>
-            入場憑證
-          </div>
-          <div style={{ display:"inline-block", padding:14, background:"#fff", borderRadius:12, border:`1px solid ${C.border}` }}>
+          <CardTitle>城市尋寶-捷運篇</CardTitle>
+          <div style={{ display:"inline-block", padding:14, background:"#fff", borderRadius:12, border:`1px solid ${C.border}`, marginTop:4 }}>
             <img src="/order-qr.png" alt="入場憑證 QR Code" width={180} height={180}
               style={{ display:"block", width:180, height:180, imageRendering:"pixelated" }}/>
           </div>
           <div style={{ fontSize:13, color:C.sub, marginTop:14 }}>
-            請於活動現場出示此憑證
+            請掃描此憑證開始遊戲
           </div>
         </Card>
 
