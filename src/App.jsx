@@ -3,6 +3,7 @@ import { ChevronDown, ArrowUp, Lock } from "lucide-react";
 
 const Portal3D = React.lazy(() => import("./Portal3D.jsx"));
 const World3D = React.lazy(() => import("./World3D.jsx"));
+const OrderSuccess = React.lazy(() => import("./OrderSuccess.jsx"));
 
 /* themes (deep bg per chapter) */
 const T = {
@@ -428,7 +429,15 @@ export default function App(){
   const [top,setTop]=useState(false);
   const [unlock,setUnlock]=useState(null);
   const [walk]=useState(true); // 3D 世界即首頁，不再有故事網頁／離開
+  const [route,setRoute]=useState(()=> typeof window!=="undefined" ? window.location.hash.replace(/^#/,"") : "");
   const wrap=useRef(null);
+
+  /* hash 路由：例如 #order-success 進入購買成功頁 */
+  useEffect(()=>{
+    const on=()=>setRoute(window.location.hash.replace(/^#/,""));
+    window.addEventListener("hashchange",on);
+    return ()=>window.removeEventListener("hashchange",on);
+  },[]);
 
   /* 過關 → 開門特效 → 在金光最亮時切換並捲到下一章 */
   const startUnlock=(i)=>{
@@ -459,7 +468,14 @@ export default function App(){
     return ()=>{ cancelAnimationFrame(raf); window.removeEventListener("deviceorientation",orient,true); window.removeEventListener("pointermove",point); };
   },[walk]);
 
-  /* 所有 hooks 宣告完才條件渲染 3D 世界，避免 hooks 順序錯亂 */
+  /* 所有 hooks 宣告完才條件渲染，避免 hooks 順序錯亂 */
+  if(route==="order-success"){
+    return (
+      <Suspense fallback={<div style={{position:"fixed",inset:0,background:"#05060c",display:"flex",alignItems:"center",justifyContent:"center",color:"#caa24f",letterSpacing:"4px"}}>載入中…</div>}>
+        <OrderSuccess/>
+      </Suspense>
+    );
+  }
   if(walk){
     if(!started) return <GameManual onStart={()=>setStarted(true)}/>;
     return (
