@@ -42,7 +42,7 @@ const SCENES = {
     decor: "station",
     bounds: { type: "rect", xMin: -6, xMax: 5, zMin: -23.5, zMax: 11 },
     start: [0, 9], // 一進場就在最前面、置中
-    gate: { pos: [0, 0, -26], glow: "#f2d78c", label: "命運第一次交會的地方", hidden: true }, // 不再顯示穿梭門
+    gate: { pos: [0, 0, -26], glow: "#f2d78c", label: "通往舞台的命運之門", hidden: true }, // 不再顯示穿梭門
     npc: {
       side: [3.2, 0, -25],     // 婆婆藏在閘門出口那一帶
       walkTo: [1.3, 0, -23.5], // 從閘門衝出來、擋在公主與出口之間
@@ -51,16 +51,15 @@ const SCENES = {
       chant: "霹靂卡霹靂拉拉，波波莉娜貝貝魯多",
       lines: [
         "孩子，你不是這裡的人吧？帶著它，完成你的使命。",
-        "不過在那之前——你得先回到，你與他的命運第一次交會的地方。",
-        "那是一間黑暗的屋子，陌生人並肩而坐，光影在牆上流轉、低聲訴說著別人的故事……而你們兩人的故事，就是從那片光影裡，悄悄開始的。",
-        "找到答案之後，再到那座舞台來找我吧。",
+        "這盒子會替你引路。解開它的封印，命運之門便會在這座迷宮裡為你浮現。",
+        "穿過那道門，到門後那座舞台來找我吧——我會在那裡等你。",
       ],
       note: ["先知曉自己身在何處，", "再知曉旅程付出的代價，", "兩者相連，便能開啟命運之門。"],
     },
     puzzle: { answer: "0725", hint: ["先知曉自己身在何處，", "再知曉旅程付出的代價"] },
     next: "forest",
     cards: [
-      { pos: [-3.2, 1.7, -9], rot: 0.5, kicker: "第一章 · 迷宮中的舞台", text: "「這裡是哪裡…？」九公主瞪大著眼的跟著人群走出諾大的鐵箱子，四周盡是她從未見過的居民、服飾與街景，映入眼簾的空間彷彿一座迷宮的入口。而方才載著她的鐵箱子，正在身後轟然高速駛離。人潮不時推擠碰撞，加上全然陌生的環境，使九公主暈頭轉向、心慌不已。" },
+      { pos: [-3.2, 1.7, -9], rot: 0.5, kicker: "第一章 · 迷宮中的舞台", text: "「這裡是哪裡…」九公主瞪大著眼的跟著人群走出諾大的鐵箱子，四周盡是從未見過的人、服飾與街景，映入眼簾的空間彷彿一座迷宮的入口。而方才載著她的鐵箱子，正在身後轟然高速駛離。人潮不時推擠碰撞，加上全然陌生的環境，使九公主暈頭轉向、心慌不已。" },
     ],
   },
   forest: {
@@ -73,8 +72,10 @@ const SCENES = {
     bounds: { type: "circle", r: 44 },
     start: [0, 16],
     clearing: { pos: [0, 0, -24], r: 11 },
+    revealGateAfterCutscene: true, // 走近石碑的聚焦運鏡播完，才亮起月門與蟾蜍
+    stone: { pos: [0, 0, -13], rot: 0, trigger: [0, -9] }, // 刻著年份的石碑（「20」清晰、後兩碼風化）；公主走近即觸發聚焦
     gate: { pos: [0, 0, -24], glow: "#f2d78c", label: "時空之門" },
-    puzzle: { answer: "2466", hint: ["森林化作不眠舞台的那一夜，是這座城紀年裡的哪一年？", "小廣場上有幾位最先睜眼的守望者？", "能走出地底見到星空的大門有幾道？"] },
+    puzzle: { answer: "246", hint: ["石碑只剩開頭的「20」，後兩個數字早被風雨磨去——那是森林化作不眠舞台的哪一年？", "地底的庭院裡棲息著幾隻，自月宮而來的守望者，牠們各有各的模樣，替月亮看守著這道門。"] },
     next: "bridge",
     preface: [
       { t: "就在此刻，一個溫柔、卻不屬於任何人的聲音，在妳腦海中響起：" },
@@ -86,7 +87,7 @@ const SCENES = {
     ],
     cards: [
       { pos: [-3.6, 1.7, 10], rot: 0.5, kicker: "第二章 · 拒絕入睡的森林", text: "黑森林——那不正是墜入月門的地方嗎？原來它們像是同一座森林的兩面：一面通往幽暗的命運，一面卻在某個夜裡，化作最明亮的舞台。" },
-      { pos: [3.6, 1.7, 0], rot: -0.5, text: "「會呼吸的森林和拒絕入睡的那一夜」，妳忽然明白了婆婆口中的「舞台」，或許從來就不只是牆上那些流轉的人影，而是這座—每年都會為了一夜而甦醒、化作巨大舞台的森林本身。" },
+      { pos: [3.6, 1.7, 0], rot: -0.5, text: "「會呼吸的森林和拒絕入睡的那一夜」，妳忽然明白了婆婆口中的「舞台」，或許從來就不只是牆上那些流轉的人影，而是這座—會為了一夜而甦醒、化作巨大舞台的森林本身。" },
       { pos: [-3.6, 1.7, -10], rot: 0.5, text: "聲音漸漸淡去只留下最後一句：「下一個線索就藏在那座森林裡...」" },
     ],
   },
@@ -527,6 +528,157 @@ function Animals({ pos, r, count = 9 }) {
     return { x: Math.cos(a) * rad, z: Math.sin(a) * rad, rot: Math.random() * Math.PI * 2, c: palette[Math.floor(Math.random() * palette.length)], sc: 0.7 + Math.random() * 0.7, seed: Math.random() * 10, hop: Math.random() < 0.5 };
   }), [count, r]);
   return <group position={pos}>{data.map((d, i) => <Critter key={i} {...d} />)}</group>;
+}
+
+/* ---------- 刻著年份的石碑：「20」清晰可辨，後兩碼被風雨磨去 ----------
+   碑面刻字直接烤進一張貼圖貼在石面上，不再用會隨鏡頭爆開的 <Html>；
+   正常模式下只看見石面上的刻痕，年份的「動畫文字」改由 StoneFocus 聚焦時浮現。 */
+function YearStone({ pos, rot = 0 }) {
+  const tex = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = 320; c.height = 416;
+    const x = c.getContext("2d");
+    // 舊石板底色 + 斑駁噪點
+    x.fillStyle = "#525a4f"; x.fillRect(0, 0, c.width, c.height);
+    for (let i = 0; i < 1300; i++) {
+      const g = 62 + Math.random() * 46;
+      x.fillStyle = `rgba(${g},${g + 6},${g - 4},${(Math.random() * 0.16).toFixed(3)})`;
+      x.fillRect(Math.random() * c.width, Math.random() * c.height, 2 + Math.random() * 5, 2 + Math.random() * 5);
+    }
+    x.textAlign = "center";
+    // 「那 一 夜」
+    x.font = '600 30px "Noto Serif TC","Songti TC",serif';
+    x.fillStyle = "rgba(26,28,22,0.55)"; x.fillText("那 一 夜", 162, 84);
+    x.fillStyle = "#cdc3a8"; x.fillText("那 一 夜", 160, 82);
+    // 清晰的「20」：先描深色凹影、再覆淺色受光面，做出刻痕的立體感
+    x.font = '800 122px "Noto Serif TC","Songti TC",serif';
+    x.fillStyle = "rgba(18,20,14,0.78)"; x.fillText("20", 110, 234);
+    x.fillStyle = "#ece5d2"; x.fillText("20", 108, 230);
+    // 後兩碼：風化成難辨的污痕
+    for (const cx of [200, 258]) {
+      const grd = x.createRadialGradient(cx, 198, 4, cx, 198, 36);
+      grd.addColorStop(0, "rgba(104,96,78,0.72)"); grd.addColorStop(1, "rgba(104,96,78,0)");
+      x.fillStyle = grd; x.beginPath(); x.arc(cx, 198, 36, 0, Math.PI * 2); x.fill();
+    }
+    // 底部小字
+    x.font = '400 20px "Noto Serif TC","Songti TC",serif';
+    x.fillStyle = "rgba(184,174,149,0.62)"; x.fillText("後 兩 字 已 被 風 雨 磨 去", 160, 322);
+    const t = new THREE.CanvasTexture(c);
+    t.anisotropy = 4;
+    return t;
+  }, []);
+  return (
+    <group position={pos} rotation={[0, rot, 0]}>
+      {/* 基座 */}
+      <mesh position={[0, 0.16, 0]} castShadow receiveShadow><boxGeometry args={[1.5, 0.32, 0.6]} /><meshStandardMaterial color="#373c34" roughness={1} /></mesh>
+      {/* 碑身（略微後仰、上窄下寬的舊石板） */}
+      <mesh position={[0, 1.15, 0]} rotation={[-0.06, 0, 0]} castShadow receiveShadow><boxGeometry args={[1.5, 1.95, 0.34]} /><meshStandardMaterial color="#545c51" roughness={1} /></mesh>
+      {/* 碑面刻字（烤進貼圖貼在碑面上，不會爆開） */}
+      <mesh position={[0, 1.21, 0.19]} rotation={[-0.06, 0, 0]}>
+        <planeGeometry args={[1.28, 1.66]} />
+        <meshStandardMaterial map={tex} roughness={1} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} />
+      </mesh>
+      <pointLight position={[0, 1.7, 1]} intensity={0.7} distance={5.5} color="#dcebe4" />
+    </group>
+  );
+}
+
+/* ---------- 月宮派來守門的守望者：各種小動物（數量＝謎底的一碼，不再全是蟾蜍） ---------- */
+function Guardian({ x, z, rot, sc, seed, kind }) {
+  const ref = useRef();
+  useFrame((s) => {
+    if (!ref.current || reduceMotion) return;
+    const t = s.clock.elapsedTime;
+    ref.current.position.y = Math.abs(Math.sin(t * 1.5 + seed)) * 0.1 * sc; // 守望者偶爾輕輕一伏一起
+  });
+  const eyes = (ex, ey, ez) => (
+    <>
+      <mesh position={[-ex, ey, ez]}><sphereGeometry args={[0.022, 8, 8]} /><meshStandardMaterial color="#15110d" /></mesh>
+      <mesh position={[ex, ey, ez]}><sphereGeometry args={[0.022, 8, 8]} /><meshStandardMaterial color="#15110d" /></mesh>
+    </>
+  );
+  let parts = null;
+  if (kind === "rabbit") {
+    const fur = "#dcd6ca";
+    parts = (<>
+      <mesh position={[0, 0.17, 0]} scale={[1, 0.95, 1.1]} castShadow><sphereGeometry args={[0.18, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[0, 0.33, 0.12]} castShadow><sphereGeometry args={[0.12, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[-0.05, 0.5, 0.1]} rotation={[0.1, 0, 0.08]}><capsuleGeometry args={[0.028, 0.16, 4, 8]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[0.05, 0.5, 0.1]} rotation={[0.1, 0, -0.08]}><capsuleGeometry args={[0.028, 0.16, 4, 8]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[0, 0.14, -0.18]}><sphereGeometry args={[0.05, 8, 8]} /><meshStandardMaterial color="#f2efe8" /></mesh>
+      {eyes(0.045, 0.35, 0.22)}
+    </>);
+  } else if (kind === "fox") {
+    const fur = "#c87a3a", light = "#e8d8c0";
+    parts = (<>
+      <mesh position={[0, 0.16, 0]} scale={[1, 0.9, 1.15]} castShadow><sphereGeometry args={[0.18, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.31, 0.12]} castShadow><sphereGeometry args={[0.115, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.28, 0.24]} rotation={[1.4, 0, 0]}><coneGeometry args={[0.05, 0.14, 10]} /><meshStandardMaterial color={light} roughness={0.9} /></mesh>
+      <mesh position={[-0.08, 0.42, 0.1]}><coneGeometry args={[0.04, 0.11, 5]} /><meshStandardMaterial color={fur} /></mesh>
+      <mesh position={[0.08, 0.42, 0.1]}><coneGeometry args={[0.04, 0.11, 5]} /><meshStandardMaterial color={fur} /></mesh>
+      <mesh position={[0, 0.16, -0.22]} rotation={[-0.8, 0, 0]}><coneGeometry args={[0.07, 0.28, 10]} /><meshStandardMaterial color={fur} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.27, -0.33]}><sphereGeometry args={[0.045, 8, 8]} /><meshStandardMaterial color={light} /></mesh>
+      {eyes(0.045, 0.33, 0.2)}
+    </>);
+  } else if (kind === "cat") {
+    const fur = "#8a8690";
+    parts = (<>
+      <mesh position={[0, 0.16, 0]} scale={[1, 0.95, 1.1]} castShadow><sphereGeometry args={[0.17, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[0, 0.32, 0.1]} castShadow><sphereGeometry args={[0.12, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[-0.08, 0.43, 0.08]}><coneGeometry args={[0.045, 0.1, 4]} /><meshStandardMaterial color={fur} /></mesh>
+      <mesh position={[0.08, 0.43, 0.08]}><coneGeometry args={[0.045, 0.1, 4]} /><meshStandardMaterial color={fur} /></mesh>
+      <mesh position={[0, 0.2, -0.18]} rotation={[0.7, 0, 0]}><capsuleGeometry args={[0.028, 0.22, 4, 8]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      {eyes(0.05, 0.33, 0.2)}
+    </>);
+  } else if (kind === "bird") {
+    const feather = "#5f8ec8", belly = "#e6eef6";
+    parts = (<>
+      <mesh position={[0, 0.16, 0]} scale={[1, 1.05, 1]} castShadow><sphereGeometry args={[0.16, 14, 12]} /><meshStandardMaterial color={feather} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.12, 0.07]} scale={[0.7, 0.8, 0.6]}><sphereGeometry args={[0.14, 12, 10]} /><meshStandardMaterial color={belly} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.34, 0.04]} castShadow><sphereGeometry args={[0.1, 14, 12]} /><meshStandardMaterial color={feather} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.33, 0.15]} rotation={[1.5, 0, 0]}><coneGeometry args={[0.035, 0.1, 8]} /><meshStandardMaterial color="#e6a84a" /></mesh>
+      <mesh position={[-0.15, 0.17, 0]} rotation={[0, 0, -0.5]} scale={[0.4, 1, 0.8]}><sphereGeometry args={[0.1, 10, 8]} /><meshStandardMaterial color={feather} roughness={0.9} /></mesh>
+      <mesh position={[0.15, 0.17, 0]} rotation={[0, 0, 0.5]} scale={[0.4, 1, 0.8]}><sphereGeometry args={[0.1, 10, 8]} /><meshStandardMaterial color={feather} roughness={0.9} /></mesh>
+      {eyes(0.04, 0.36, 0.12)}
+    </>);
+  } else if (kind === "turtle") {
+    const shell = "#4f7a48", skin = "#bcae84";
+    parts = (<>
+      <mesh position={[0, 0.16, 0]} castShadow><sphereGeometry args={[0.2, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.5]} /><meshStandardMaterial color={shell} roughness={0.85} /></mesh>
+      <mesh position={[0, 0.12, 0]} scale={[1, 0.4, 1]}><sphereGeometry args={[0.19, 14, 10]} /><meshStandardMaterial color={skin} roughness={0.9} /></mesh>
+      <mesh position={[0, 0.13, 0.2]} castShadow><sphereGeometry args={[0.08, 12, 10]} /><meshStandardMaterial color={skin} roughness={0.9} /></mesh>
+      {[[-0.14, 0.16], [0.14, 0.16], [-0.12, -0.14], [0.12, -0.14]].map(([lx, lz], i) => (
+        <mesh key={i} position={[lx, 0.06, lz]}><sphereGeometry args={[0.05, 8, 8]} /><meshStandardMaterial color={skin} roughness={0.9} /></mesh>
+      ))}
+      {eyes(0.035, 0.15, 0.26)}
+    </>);
+  } else { // deer
+    const fur = "#b8895a", antler = "#7a5a36";
+    parts = (<>
+      <mesh position={[0, 0.18, 0]} scale={[1, 0.95, 1.2]} castShadow><sphereGeometry args={[0.17, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[0, 0.36, 0.13]} castShadow><sphereGeometry args={[0.105, 14, 12]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[0, 0.3, 0.22]} scale={[0.8, 0.7, 1]}><sphereGeometry args={[0.07, 12, 10]} /><meshStandardMaterial color={fur} roughness={0.95} /></mesh>
+      <mesh position={[-0.07, 0.46, 0.05]} rotation={[0, 0, 0.3]}><capsuleGeometry args={[0.012, 0.14, 3, 6]} /><meshStandardMaterial color={antler} /></mesh>
+      <mesh position={[0.07, 0.46, 0.05]} rotation={[0, 0, -0.3]}><capsuleGeometry args={[0.012, 0.14, 3, 6]} /><meshStandardMaterial color={antler} /></mesh>
+      <mesh position={[-0.1, 0.43, 0.08]} rotation={[0.3, 0, 0.2]}><coneGeometry args={[0.03, 0.08, 5]} /><meshStandardMaterial color={fur} /></mesh>
+      <mesh position={[0.1, 0.43, 0.08]} rotation={[0.3, 0, -0.2]}><coneGeometry args={[0.03, 0.08, 5]} /><meshStandardMaterial color={fur} /></mesh>
+      {eyes(0.04, 0.37, 0.22)}
+    </>);
+  }
+  return <group ref={ref} position={[x, 0, z]} rotation={[0, rot, 0]} scale={sc}>{parts}</group>;
+}
+const GUARDIAN_KINDS = ["rabbit", "fox", "cat", "bird", "turtle", "deer"];
+function MoonGuardians({ pos, r, count = 6 }) {
+  const data = useMemo(() => {
+    const kinds = [...GUARDIAN_KINDS];
+    for (let i = kinds.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [kinds[i], kinds[j]] = [kinds[j], kinds[i]]; } // 洗牌：物種多樣、每次擺位不同
+    return Array.from({ length: count }, (_, i) => {
+      const a = (i / count) * Math.PI * 2 + 0.4, rad = r * (0.4 + Math.random() * 0.34);
+      const x = Math.cos(a) * rad, z = Math.sin(a) * rad;
+      return { x, z, rot: Math.atan2(-x, -z) + (Math.random() - 0.5) * 0.8, sc: 0.95 + Math.random() * 0.3, seed: Math.random() * 10, kind: kinds[i % kinds.length] };
+    });
+  }, [count, r]);
+  return <group position={pos}>{data.map((d, i) => <Guardian key={i} {...d} />)}</group>;
 }
 
 /* ---------- 大橋：上坡 → 天臺（第三章）---------- */
@@ -1031,6 +1183,51 @@ function OldWoman({ npc, playerPos, paused, cutscene, onCutsceneEnd }) {
         </group>
       )}
     </>
+  );
+}
+
+/* ---------- 森林：走近石碑時，鏡頭自動推近端詳年份（純運鏡，無人物）→ 完成後門與蟾蜍顯現 ---------- */
+function StoneFocus({ stone, playerPos, paused, cutscene, onCutsceneEnd }) {
+  const [phase, setPhase] = useState("idle"); // idle→focus→done
+  const tStart = useRef(0);
+  const trig = stone.trigger || [stone.pos[0], stone.pos[2] + 4];
+
+  useFrame((s) => {
+    const t = s.clock.elapsedTime;
+    const px = playerPos ? playerPos.current.x : 0, pz = playerPos ? playerPos.current.z : 0;
+    const el = t - tStart.current;
+
+    if (phase === "idle") {
+      if (playerPos && Math.hypot(trig[0] - px, trig[1] - pz) < 2.6) { if (paused) paused.current = true; tStart.current = t; setPhase("focus"); }
+      return;
+    }
+    if (phase === "focus") {
+      if (el > 4.0) { if (cutscene) cutscene.current.active = false; setPhase("done"); if (onCutsceneEnd) onCutsceneEnd(); return; }
+      if (cutscene) {
+        cutscene.current.active = true;
+        // 前 1.5 秒平滑推近石碑面，之後定格端詳那行年份
+        const k = Math.min(1, el / 1.5), e = k * k * (3 - 2 * k);
+        const dist = 5.0 - 2.6 * e; // 由遠（5）推近到近（2.4）
+        cutscene.current.focus.set(stone.pos[0], 1.25, stone.pos[2]);
+        cutscene.current.cam.set(stone.pos[0] + 0.3, 1.7, stone.pos[2] + dist);
+      }
+    }
+  });
+
+  if (phase !== "focus") return null;
+  return (
+    <Html position={[stone.pos[0], 2.75, stone.pos[2]]} center zIndexRange={[10, 0]} style={{ pointerEvents: "none" }}>
+      <div style={{ textAlign: "center", fontFamily: '"Noto Serif TC","Microsoft JhengHei",serif', animation: "stoneCap .7s ease" }}>
+        <div style={{ fontSize: 12, letterSpacing: "4px", color: "#9fb8a6", marginBottom: 9, whiteSpace: "nowrap" }}>石碑上，刻著那一夜的年份……</div>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 20px", borderRadius: 12, border: "1px solid #dcebe455", background: "rgba(8,14,12,0.88)", boxShadow: "0 0 24px #00000099" }}>
+          <span style={{ fontSize: 42, fontWeight: 800, color: "#ece5d2", letterSpacing: "4px", textShadow: "0 1px 3px #000" }}>20</span>
+          <span style={{ width: 27, height: 42, borderRadius: 5, background: "radial-gradient(circle at 50% 45%,#6f6757,transparent 72%)", filter: "blur(3px)", opacity: 0.6, animation: "stoneWear 1.7s ease infinite alternate" }} />
+          <span style={{ width: 27, height: 42, borderRadius: 5, background: "radial-gradient(circle at 50% 55%,#6f6757,transparent 70%)", filter: "blur(3.5px)", opacity: 0.55, animation: "stoneWear 2.1s ease infinite alternate" }} />
+        </div>
+        <div style={{ fontSize: 11, letterSpacing: "2px", color: "#b8ae95", opacity: 0.72, marginTop: 9, whiteSpace: "nowrap" }}>後兩字已被風雨磨去</div>
+      </div>
+      <style>{`@keyframes stoneCap{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@keyframes stoneWear{from{opacity:.32}to{opacity:.66}}`}</style>
+    </Html>
   );
 }
 
@@ -1723,7 +1920,7 @@ function StoryCard({ pos, rot = 0, kicker, text, accent, playerPos, reveal, atDe
 }
 
 /* ---------- 單一場景的 3D 內容 ---------- */
-function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPitch, suck, cutscene, onCutsceneEnd, onReunionEnd }) {
+function SceneContents({ scene, input, paused, onNearGate, reveal, revealed, camYaw, camPitch, suck, cutscene, onCutsceneEnd, onReunionEnd }) {
   const trees = useMemo(() => scene.decor === "forest" ? makeTrees(150, scene.bounds, scene.clearing) : [], [scene]);
   const rails = useMemo(() => scene.decor === "bridge" ? makeRailings() : [], [scene]);
   const buildings = useMemo(() => scene.decor === "city" ? makeCity(64, scene.bounds) : [], [scene]);
@@ -1736,6 +1933,7 @@ function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPi
     const list = [...trees, ...rails, ...buildings, ...cols, ...halls, ...stationCols, ...arcade];
     if (!scene.gate.faint) list.push({ x: scene.gate.pos[0], z: scene.gate.pos[2], r: 2.2 });
     if (scene.npc) list.push({ x: scene.npc.walkTo[0], z: scene.npc.walkTo[2], r: 0.6 });
+    if (scene.stone) list.push({ x: scene.stone.pos[0], z: scene.stone.pos[2], r: 0.9 });
     if (scene.house) list.push({ x: scene.house.x, z: scene.house.z, r: 1.4 });
     if (scene.desk) list.push({ x: scene.desk.pos[0], z: scene.desk.pos[2], r: 1.1 });
     return list;
@@ -1756,13 +1954,17 @@ function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPi
         {/* 月光補光：讓黑森林整體變亮、手機也看得清楚 */}
         <hemisphereLight args={["#a4c8d0", "#1a2c20", 0.75]} />
         <pointLight position={[0, 16, -6]} intensity={3.2} distance={95} color="#dcebe4" />
-        <Trees data={trees} /><Fireflies r={scene.bounds.r} />{scene.clearing && <><Clearing pos={scene.clearing.pos} r={scene.clearing.r} /><Animals pos={scene.clearing.pos} r={scene.clearing.r} /></>}
+        <Trees data={trees} /><Fireflies r={scene.bounds.r} />{scene.clearing && <Clearing pos={scene.clearing.pos} r={scene.clearing.r} />}
+        {/* 森林空地的小動物：第二章是過場後才現身的各種守望者（謎底＝牠們的數目）；其餘森林維持原本的小動物 */}
+        {scene.clearing && (scene.stone ? (revealed && <MoonGuardians pos={scene.clearing.pos} r={scene.clearing.r} count={6} />) : <Animals pos={scene.clearing.pos} r={scene.clearing.r} />)}
       </>}
+      {scene.stone && <YearStone pos={scene.stone.pos} rot={scene.stone.rot} />}
       {scene.decor === "bridge" && <><Bridge rails={rails} /><Motorcycles /><HeavenTerrace pos={[0, BR_TOP, -37]} /></>}
       {scene.house && <House pos={[scene.house.x, scene.groundY ? scene.groundY(scene.house.z) : 0, scene.house.z]} />}
       {scene.decor === "city" && <City data={buildings} />}
       {scene.decor === "station" && <><Station cols={stationCols} /><FareGates z={-25} /><Commuters /><Posters /></>}
       {scene.npc && <OldWoman npc={scene.npc} playerPos={playerPos} paused={paused} cutscene={cutscene} onCutsceneEnd={onCutsceneEnd} />}
+      {scene.stone && <StoneFocus stone={scene.stone} playerPos={playerPos} paused={paused} cutscene={cutscene} onCutsceneEnd={onCutsceneEnd} />}
       {scene.reunion && <Prince npc={scene.reunion} playerPos={playerPos} paused={paused} cutscene={cutscene} groundY={scene.groundY} onEnd={onReunionEnd} />}
       {scene.companion && <Prince follow startAt={scene.companion.start} playerPos={playerPos} groundY={scene.groundY} />}
       {scene.desk && <Desk pos={scene.desk.pos} rot={scene.desk.rot} playerPos={playerPos} onOpen={() => setDeskOpen(true)} />}
@@ -1772,7 +1974,7 @@ function SceneContents({ scene, input, paused, onNearGate, reveal, camYaw, camPi
       {(scene.cards || []).map((c, i) => (
         <StoryCard key={i} pos={c.pos} rot={c.rot} kicker={c.kicker} text={c.text} accent={scene.gate.glow} playerPos={playerPos} reveal={reveal} atDesk={c.atDesk} locked={c.afterDesk && !deskOpen} />
       ))}
-      {!scene.gate.hidden && (scene.gate.kind === "book"
+      {!scene.gate.hidden && (!scene.revealGateAfterCutscene || revealed) && (scene.gate.kind === "book"
         ? <OpenBook pos={scene.gate.pos} glow={scene.gate.glow} />
         : <MoonGate pos={scene.gate.pos} glow={scene.gate.glow} faint={scene.gate.faint} ground={scene.ground} />)}
       <Player input={input} scene={scene} obstacles={obstacles} paused={paused} onNearGate={onNearGate} playerPos={playerPos} camYaw={camYaw} camPitch={camPitch} suck={suck} cutscene={cutscene} />
@@ -1926,9 +2128,9 @@ function IntroLeaf({ idx }) {
       )}
       <div className="ib-inner">
         {pg.head && <><div className="ib-kicker">序 曲</div><div className="ib-title">被決定的命運</div><div className="ib-rule" /></>}
-        <p className="ib-text">{breakPunct(pg.text)}</p>
+        <p className="ib-text">{pg.text}</p>
         {pg.incant && <div className="ib-incant">{pg.incant}</div>}
-        {pg.tail && <p className="ib-tail">{breakPunct(pg.tail)}</p>}
+        {pg.tail && <p className="ib-tail">{pg.tail}</p>}
       </div>
       <div className="ib-folio">{idx + 1} / {INTRO_PAGES.length}</div>
     </div>
@@ -2000,8 +2202,8 @@ function IntroBook({ onEnter }) {
           align-items:center;justify-content:center;text-align:center}
         .ib-mrt{position:absolute;inset:0;width:100%;height:100%;opacity:.32;z-index:0;pointer-events:none}
         .ib-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
-        .ib-kicker{font-size:13px;letter-spacing:8px;color:#9a7b44;padding-left:8px}
-        .ib-title{margin-top:10px;font-size:clamp(21px,6vw,27px);letter-spacing:4px;font-weight:700;color:#5a3f22}
+        .ib-kicker{font-size:13px;letter-spacing:8px;color:#9a7b44;padding-left:4px}
+        .ib-title{margin-top:10px;font-size:clamp(21px,6vw,27px);letter-spacing:4px;font-weight:700;color:#5a3f22;white-space:nowrap}
         .ib-rule{width:54px;height:1px;background:#b08a4e;margin:16px 0;opacity:.7}
         .ib-text{margin:0;font-size:clamp(13px,3.4vw,15.5px);line-height:2;color:#5a4a32;text-align:justify}
         .ib-incant{margin-top:14px;font-size:clamp(14px,3.8vw,16px);letter-spacing:2px;color:#8a5a2a;font-style:italic}
@@ -2115,18 +2317,20 @@ export default function World3D({ onExit }) {
   const [intro, setIntro] = useState(() => !!SCENES[sceneId].intro);
   const [entering, setEntering] = useState(false); // 踏入序章的轉場特效進行中
   const [narration, setNarration] = useState(null); // 相認後的旁白序章段
+  const [revealed, setRevealed] = useState(false); // 第二章：石碑聚焦運鏡播完，門與蟾蜍才顯現
   const scene = SCENES[sceneId];
 
   // 序曲進場時翻書（含轉場），期間凍結移動
   useEffect(() => { paused.current = intro; }, [intro]);
 
   // 每次切換場景，鏡頭視角歸正面、解除吸入狀態
-  useEffect(() => { camYaw.current = 0; camPitch.current = 0; suck.current = false; cutscene.current.active = false; setIntro(!!SCENES[sceneId].intro); }, [sceneId]);
+  useEffect(() => { camYaw.current = 0; camPitch.current = 0; suck.current = false; cutscene.current.active = false; setRevealed(false); setIntro(!!SCENES[sceneId].intro); }, [sceneId]);
 
   // 走近月門 → 凍結移動；序曲設了 autoEnter，直接被吸入下一章，其餘開啟密碼鎖
   // 有婆婆過場的場景（第一章）由過場本身觸發密碼，不在走近閘門時觸發
+  // 第二章的門要等石碑聚焦運鏡播完（revealed）才算數
   useEffect(() => {
-    if (near && !puzzle && !done && !scene.npc) {
+    if (near && !puzzle && !done && !scene.npc && (!scene.revealGateAfterCutscene || revealed)) {
       paused.current = true; input.current.x = 0; input.current.z = 0;
       if (scene.autoEnter) { suck.current = true; solve(); }
       else setPuzzle(true);
@@ -2147,7 +2351,7 @@ export default function World3D({ onExit }) {
   return (
     <div style={{ position: "fixed", inset: 0, background: scene.bg, overflow: "hidden" }}>
       <Canvas key={sceneId} shadows dpr={[1, 1.6]} gl={{ antialias: true, powerPreference: "high-performance" }} camera={{ position: [0, 2.7, 22], fov: 52 }}>
-        <SceneContents scene={scene} input={input} paused={paused} onNearGate={setNear} reveal={!intro} camYaw={camYaw} camPitch={camPitch} suck={suck} cutscene={cutscene} onCutsceneEnd={() => setPuzzle(true)} onReunionEnd={() => setNarration(scene.reunion?.after || null)} />
+        <SceneContents scene={scene} input={input} paused={paused} onNearGate={setNear} reveal={!intro} revealed={revealed} camYaw={camYaw} camPitch={camPitch} suck={suck} cutscene={cutscene} onCutsceneEnd={() => { if (scene.revealGateAfterCutscene) { setRevealed(true); paused.current = false; } else setPuzzle(true); }} onReunionEnd={() => setNarration(scene.reunion?.after || null)} />
       </Canvas>
 
       <LookControl yaw={camYaw} pitch={camPitch} hidden={puzzle || done || intro} />
@@ -2164,11 +2368,11 @@ export default function World3D({ onExit }) {
 
       {/* 場景名 + 操作提示 */}
       <div style={{ position: "fixed", top: 16, left: "50%", transform: "translateX(-50%)", zIndex: 20, textAlign: "center", color: "#cdd6e6", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif', textShadow: "0 1px 6px #000", pointerEvents: "none" }}>
-        <div style={{ fontSize: 16, letterSpacing: "4px", color: scene.gate.glow, marginBottom: 4 }}>{scene.name}</div>
+        <div style={{ fontSize: 16, letterSpacing: "4px", color: scene.gate.glow, marginBottom: 4, whiteSpace: "nowrap" }}>{scene.name}</div>
       </div>
 
       {/* 接近提示 */}
-      {near && !puzzle && !done && !fade && !scene.gate.hidden && (
+      {near && !puzzle && !done && !fade && !scene.gate.hidden && (!scene.revealGateAfterCutscene || revealed) && (
         <div style={{ position: "fixed", left: "50%", top: "42%", transform: "translateX(-50%)", zIndex: 20, textAlign: "center", color: scene.gate.glow, pointerEvents: "none", fontFamily: '-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif' }}>
           <div style={{ fontSize: 12, letterSpacing: "6px", opacity: 0.85, marginBottom: 8 }}>✦ {scene.gate.label} ✦</div>
           <div style={{ fontSize: "clamp(20px,5vw,28px)", letterSpacing: "3px", fontWeight: 700, textShadow: `0 0 24px ${scene.gate.glow}88` }}>命運之門就在眼前</div>
